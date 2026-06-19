@@ -32,6 +32,7 @@ class FlatAdmin(admin.ModelAdmin):
         'town',
         'likes_count',
         'owner_pure_phone',
+        'owners_phonenumber', 
     )
     
     list_editable = ('new_building',)
