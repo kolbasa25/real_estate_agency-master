@@ -1,7 +1,13 @@
 from django.contrib import admin
 from .models import Flat, Complaint, Owner
 
+class FlatOwnersInline(admin.TabularInline):
+    model = Flat.owners.through
+    raw_id_fields = ('owner',)
+    extra = 0
+
 class FlatAdmin(admin.ModelAdmin):
+    inlines = (FlatOwnersInline,)
     fields = (
         'address',
         'town',
@@ -18,10 +24,7 @@ class FlatAdmin(admin.ModelAdmin):
         'created_at',
         'liked_by',
     )
-    search_fields = (
-        'town',
-        'address',
-    )
+    search_fields = ('town', 'address',)
     readonly_fields = ('created_at',)
     
     list_display = (
@@ -50,10 +53,11 @@ class FlatAdmin(admin.ModelAdmin):
     likes_count.short_description = 'Количество лайков'
 
 class ComplaintAdmin(admin.ModelAdmin):
-    fields = (
+    list_display = (
         'user',
         'flat',
         'text',
+        'created_at',
     )
     search_fields = (
         'user__username',
@@ -61,19 +65,13 @@ class ComplaintAdmin(admin.ModelAdmin):
         'flat__address',
         'text',
     )
-    readonly_fields = ('created_at',)
-    
-    list_display = (
-        'user',
-        'flat',
-        'text',
-        'created_at',
-    )
     list_filter = (
         'created_at',
         'user',
     )
-    raw_id_fields = ('user', 'flat')
+    readonly_fields = ('created_at',)
+    raw_id_fields = ('user', 'flat',)
+    fields = ('user', 'flat', 'text',)
 
 class OwnerAdmin(admin.ModelAdmin):
     fields = (
@@ -87,6 +85,7 @@ class OwnerAdmin(admin.ModelAdmin):
         'phonenumber',
         'pure_phone',
     )
+    
     list_display = (
         'full_name',
         'phonenumber',
