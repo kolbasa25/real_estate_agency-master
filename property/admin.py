@@ -3,9 +3,6 @@ from .models import Flat, Complaint, Owner
 
 class FlatAdmin(admin.ModelAdmin):
     fields = (
-        'owner',
-        'owner_pure_phone',
-        'owners_phonenumber',
         'address',
         'town',
         'town_district',
@@ -21,7 +18,10 @@ class FlatAdmin(admin.ModelAdmin):
         'created_at',
         'liked_by',
     )
-    search_fields = ('town', 'address', 'owner','owner_pure_phone')
+    search_fields = (
+        'town',
+        'address',
+    )
     readonly_fields = ('created_at',)
     
     list_display = (
@@ -31,8 +31,6 @@ class FlatAdmin(admin.ModelAdmin):
         'construction_year',
         'town',
         'likes_count',
-        'owner_pure_phone',
-        'owners_phonenumber', 
     )
     
     list_editable = ('new_building',)
@@ -52,11 +50,10 @@ class FlatAdmin(admin.ModelAdmin):
     likes_count.short_description = 'Количество лайков'
 
 class ComplaintAdmin(admin.ModelAdmin):
-    list_display = (
+    fields = (
         'user',
         'flat',
         'text',
-        'created_at',
     )
     search_fields = (
         'user__username',
@@ -64,18 +61,41 @@ class ComplaintAdmin(admin.ModelAdmin):
         'flat__address',
         'text',
     )
-    list_filter = ('created_at', 'user')
     readonly_fields = ('created_at',)
+    
+    list_display = (
+        'user',
+        'flat',
+        'text',
+        'created_at',
+    )
+    list_filter = (
+        'created_at',
+        'user',
+    )
     raw_id_fields = ('user', 'flat')
-    fields = ('user', 'flat', 'text')
 
 class OwnerAdmin(admin.ModelAdmin):
-    fields = ('full_name', 'phonenumber', 'pure_phone', 'flats')
-    search_fields = ('full_name', 'phonenumber', 'pure_phone')
-    
-    list_display = ('full_name', 'phonenumber', 'pure_phone', 'flats_count')
+    fields = (
+        'full_name',
+        'phonenumber',
+        'pure_phone',
+        'flats',
+    )
+    search_fields = (
+        'full_name',
+        'phonenumber',
+        'pure_phone',
+    )
+    list_display = (
+        'full_name',
+        'phonenumber',
+        'pure_phone',
+        'flats_count',
+    )
     list_filter = ('flats',)
     raw_id_fields = ('flats',)
+    filter_horizontal = ('flats',)
     
     def flats_count(self, obj):
         return obj.flats.count()
