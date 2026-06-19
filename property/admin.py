@@ -2,7 +2,26 @@ from django.contrib import admin
 from .models import Flat, Complaint
 
 class FlatAdmin(admin.ModelAdmin):
-    search_fields = ('town', 'address', 'owner')
+    fields = (
+        'owner',
+        'owner_pure_phone',
+        'owners_phonenumber',
+        'address',
+        'town',
+        'town_district',
+        'price',
+        'new_building',
+        'construction_year',
+        'rooms_number',
+        'living_area',
+        'has_balcony',
+        'floor',
+        'description',
+        'active',
+        'created_at',
+        'liked_by',
+    )
+    search_fields = ('town', 'address', 'owner','owner_pure_phone')
     readonly_fields = ('created_at',)
     
     list_display = (
@@ -12,6 +31,7 @@ class FlatAdmin(admin.ModelAdmin):
         'construction_year',
         'town',
         'likes_count',
+        'owner_pure_phone',
     )
     
     list_editable = ('new_building',)

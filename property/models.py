@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from phonenumber_field.modelfields import PhoneNumberField
 
 User = get_user_model()
 
@@ -62,7 +63,15 @@ class Flat(models.Model):
         related_name='liked_flats',
         blank=True
     )
-        
+
+    owner_pure_phone = PhoneNumberField(
+        'Нормализованный номер владельца',
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text='Введите номер в международном формате, например: +79161234567'
+    )
+
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
