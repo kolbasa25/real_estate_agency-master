@@ -11,6 +11,7 @@ class FlatAdmin(admin.ModelAdmin):
         'new_building',
         'construction_year',
         'town',
+        'likes_count',
     )
     
     list_editable = ('new_building',)
@@ -22,6 +23,12 @@ class FlatAdmin(admin.ModelAdmin):
         'town',
         'active',
     )
+
+    raw_id_fields = ('liked_by',)
+    
+    def likes_count(self, obj):
+        return obj.liked_by.count()
+    likes_count.short_description = 'Количество лайков'
 
 class ComplaintAdmin(admin.ModelAdmin):
     list_display = (
