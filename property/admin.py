@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Flat, Complaint
+from .models import Flat, Complaint, Owner
 
 class FlatAdmin(admin.ModelAdmin):
     fields = (
@@ -69,5 +69,18 @@ class ComplaintAdmin(admin.ModelAdmin):
     raw_id_fields = ('user', 'flat')
     fields = ('user', 'flat', 'text')
 
+class OwnerAdmin(admin.ModelAdmin):
+    fields = ('full_name', 'phonenumber', 'pure_phone', 'flats')
+    search_fields = ('full_name', 'phonenumber', 'pure_phone')
+    
+    list_display = ('full_name', 'phonenumber', 'pure_phone', 'flats_count')
+    list_filter = ('flats',)
+    raw_id_fields = ('flats',)
+    
+    def flats_count(self, obj):
+        return obj.flats.count()
+    flats_count.short_description = 'Количество квартир'
+
 admin.site.register(Flat, FlatAdmin)
 admin.site.register(Complaint, ComplaintAdmin)
+admin.site.register(Owner, OwnerAdmin)
