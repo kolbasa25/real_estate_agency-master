@@ -54,24 +54,24 @@ class FlatAdmin(admin.ModelAdmin):
 
 class ComplaintAdmin(admin.ModelAdmin):
     list_display = (
-        'user',
+        'author',
         'flat',
         'text',
         'created_at',
     )
     search_fields = (
-        'user__username',
-        'user__email',
+        'author__username',
+        'author__email',
         'flat__address',
         'text',
     )
     list_filter = (
         'created_at',
-        'user',
+        'author',
     )
     readonly_fields = ('created_at',)
-    raw_id_fields = ('user', 'flat',)
-    fields = ('user', 'flat', 'text',)
+    raw_id_fields = ('author', 'flat',)
+    fields = ('author', 'flat', 'text',)
 
 class OwnerAdmin(admin.ModelAdmin):
     fields = (

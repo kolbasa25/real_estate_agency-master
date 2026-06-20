@@ -66,10 +66,10 @@ class Flat(models.Model):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
 class Complaint(models.Model):
-    user = models.ForeignKey(
+    author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Пользователь, отправивший жалобу',
+        verbose_name='Автор жалобы',
         related_name='complaints'
     )
     flat = models.ForeignKey(
@@ -89,7 +89,7 @@ class Complaint(models.Model):
     )
         
     def __str__(self):
-        return f'Жалоба от {self.user.username} на {self.flat.address}'
+        return f'Жалоба от {self.author.username} на {self.flat.address}'
 
 class Owner(models.Model):
     full_name = models.CharField(
